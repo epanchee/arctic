@@ -1,0 +1,8 @@
+legend.fontsize : 16
+axes.titlesize : 16
+axes.titlepad : 15
+axes.labelsize : 16
+axes.labelpad : 15
+xtick.labelsize :16
+ytick.labelsize : 16
+font.family : serif
