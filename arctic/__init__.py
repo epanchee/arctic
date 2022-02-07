@@ -1,4 +1,3 @@
-import itertools
 import matplotlib.pyplot as plt
 import numpy as np
 from os.path import join
@@ -20,6 +19,7 @@ def drawable(func):
             return
         else:
             func(self, *args, **kwargs)
+
     return wrapper_drawable
 
 
@@ -66,7 +66,7 @@ class VizCase:
         T_matr = self.T.reshape((self.Y.size, self.X.size))
 
         figure = plt.figure(num=None, figsize=size, dpi=80, facecolor='w')
-        plt.pcolormesh(self.X, self.Y, T_matr, shading='nearest', figure=figure, snap=True)
+        plt.pcolormesh(self.X, self.Y, T_matr, shading='gouraud', figure=figure, snap=False)
 
         plt.title(f'Горизонтальный срез. $z={self.z}$')
         plt.colorbar(shrink=.9, aspect=50)
@@ -84,12 +84,13 @@ class VizCase:
         nearx = self.X[nearx_ind]
         neary = self.Y[neary_ind]
         vert_data = self.data[((self.data[:, 0] == nearx) & (self.data[:, 1] == neary))]
+        vert_data[:, 2] *= -1  # разворачиваем график
 
         figure = plt.figure(num=None, figsize=size, dpi=80, facecolor='w')
         plt.plot(vert_data[:, 2], vert_data[:, 3], figure=figure, marker='.')
         plt.title(f'Вертикальный срез в точке ({nearx}, {neary})')
         ax = plt.gca()
-        ax.set_xticks(np.arange(-16, 2.1, 2))
+        ax.set_xticks(np.arange(0, 16.1, 2))
         ax.set_yticks(np.arange(-25, 5.1, 5))
         ax.set_xlabel('$z$')
         ax.set_ylabel('$t(z)$')
